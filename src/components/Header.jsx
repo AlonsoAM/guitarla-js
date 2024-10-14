@@ -1,15 +1,6 @@
 import {useMemo} from "react";
 
-export const Header = ({cart, removeItem, incrementQuantity, decrementQuantity, clearCart}) => {
-
-    // State derivado
-    // const isempty = cart.length === 0;
-    // const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-    // useMemo
-    const isEmpty = useMemo(() => cart.length === 0, [cart]);
-    const total = useMemo(() => cart.reduce((acc, item) => acc + item.price * item.quantity, 0), [cart]);
-
+export const Header = ({cart, removeItem, incrementQuantity, decrementQuantity, clearCart, isEmpty, total}) => {
 
     return (
         <>
