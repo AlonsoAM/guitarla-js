@@ -1,16 +1,22 @@
 import {Header} from "./components/Header.jsx";
 import {Guitarra} from "./components/Guitarra.jsx";
+import {useEffect, useState} from "react";
+import {db} from "./data/data.js";
+
 
 function App() {
 
+    const [data, setData] = useState(db);
+
+
     return (
         <>
-            <Header />
+            <Header/>
 
             <main className="container-xl mt-5">
                 <h2 className="text-center">Nuestra Colección</h2>
                 <div className="row mt-5">
-                    <Guitarra />
+                    <Guitarra/>
                 </div>
             </main>
 
