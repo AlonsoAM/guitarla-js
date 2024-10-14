@@ -6,7 +6,21 @@ import {db} from "./data/data.js";
 
 function App() {
 
-    const [data, setData] = useState(db);
+    const [data, setData] = useState(db)
+    const [cart, setCart] = useState([]);
+
+    const addToCart = (item) => {
+
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
+        if (existingItem) {
+            setCart(cart.map(cartItem =>
+                cartItem.id === item.id ? {...cartItem, quantity: (cartItem.quantity || 1) + 1} : cartItem
+            ));
+        } else {
+            setCart([...cart, {...item, quantity: 1}]);
+        }
+
+    }
 
     return (
         <>
@@ -16,7 +30,7 @@ function App() {
                 <h2 className="text-center">Nuestra Colección</h2>
                 <div className="row mt-5">
                     {data.map((guitarra) => (
-                        <Guitarra key={guitarra.id} guitarra={guitarra}/>
+                        <Guitarra key={guitarra.id} guitarra={guitarra} addToCart={addToCart}/>
                     ))}
                 </div>
             </main>
