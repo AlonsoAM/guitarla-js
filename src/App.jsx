@@ -8,23 +8,46 @@ function App() {
 
     const [data, setData] = useState(db)
     const [cart, setCart] = useState([]);
+    const itemsLimit = 5;
 
     const addToCart = (item) => {
 
         const existingItem = cart.find(cartItem => cartItem.id === item.id);
         if (existingItem) {
             setCart(cart.map(cartItem =>
-                cartItem.id === item.id ? {...cartItem, quantity: (cartItem.quantity || 1) + 1} : cartItem
+                cartItem.id === item.id && cartItem.quantity < itemsLimit ? {...cartItem, quantity: cartItem.quantity + 1} : cartItem
             ));
         } else {
             setCart([...cart, {...item, quantity: 1}]);
         }
-
     }
+
+    const removeItem = (item) => setCart(cart.filter(cartItem => cartItem.id !== item.id));
+
+    const incrementQuantity = (item) => {
+        setCart(cart.map(cartItem =>
+            cartItem.id === item.id && cartItem.quantity < itemsLimit ? {...cartItem, quantity: cartItem.quantity + 1} : cartItem
+        ));
+    }
+
+    const decrementQuantity = (item) => {
+        if (item.quantity > 1) {
+            setCart(cart.map(cartItem =>
+                cartItem.id === item.id ? {...cartItem, quantity: cartItem.quantity - 1} : cartItem
+            ));
+        } else {
+            removeItem(item);
+        }
+    }
+
+    // Limpiar el carrito
+    const clearCart = () => setCart([]);
+
 
     return (
         <>
-            <Header/>
+            <Header cart={cart} removeItem={removeItem} incrementQuantity={incrementQuantity}
+                    decrementQuantity={decrementQuantity} clearCart={clearCart}/>
 
             <main className="container-xl mt-5">
                 <h2 className="text-center">Nuestra Colección</h2>
