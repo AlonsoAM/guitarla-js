@@ -7,15 +7,21 @@ import {db} from "./data/data.js";
 function App() {
 
     const [data, setData] = useState(db)
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : []);
     const itemsLimit = 5;
 
-    const addToCart = (item) => {
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }, [cart])
 
+    const addToCart = (item) => {
         const existingItem = cart.find(cartItem => cartItem.id === item.id);
         if (existingItem) {
             setCart(cart.map(cartItem =>
-                cartItem.id === item.id && cartItem.quantity < itemsLimit ? {...cartItem, quantity: cartItem.quantity + 1} : cartItem
+                cartItem.id === item.id && cartItem.quantity < itemsLimit ? {
+                    ...cartItem,
+                    quantity: cartItem.quantity + 1
+                } : cartItem
             ));
         } else {
             setCart([...cart, {...item, quantity: 1}]);
@@ -26,7 +32,10 @@ function App() {
 
     const incrementQuantity = (item) => {
         setCart(cart.map(cartItem =>
-            cartItem.id === item.id && cartItem.quantity < itemsLimit ? {...cartItem, quantity: cartItem.quantity + 1} : cartItem
+            cartItem.id === item.id && cartItem.quantity < itemsLimit ? {
+                ...cartItem,
+                quantity: cartItem.quantity + 1
+            } : cartItem
         ));
     }
 
