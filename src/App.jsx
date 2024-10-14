@@ -8,7 +8,6 @@ function App() {
 
     const [data, setData] = useState(db);
 
-
     return (
         <>
             <Header/>
@@ -16,7 +15,9 @@ function App() {
             <main className="container-xl mt-5">
                 <h2 className="text-center">Nuestra Colección</h2>
                 <div className="row mt-5">
-                    <Guitarra/>
+                    {data.map((guitarra) => (
+                        <Guitarra key={guitarra.id} guitarra={guitarra}/>
+                    ))}
                 </div>
             </main>
 
